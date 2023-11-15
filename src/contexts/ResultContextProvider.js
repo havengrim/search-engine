@@ -19,7 +19,7 @@ export const ResultContextProvider = ({ children }) => {
                 related_keywords: 'true'
             },
             headers: {
-                'X-RapidAPI-Key': 'cc8e73a12fmsh9e9f310b5f6938fp14eccdjsnbc67905d8d26',
+                 'X-RapidAPI-Key': '878a3fdf2dmsh746a53a7185cc84p1cff08jsnac5662538f49',
                 'X-RapidAPI-Host': 'google-web-search1.p.rapidapi.com'
             }
         };

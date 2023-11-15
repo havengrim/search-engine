@@ -7,7 +7,6 @@ export const Initials = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Redirect to /Search when the component is mounted
     navigate('/Search');
   }, [navigate]);
 
