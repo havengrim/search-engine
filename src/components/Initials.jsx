@@ -7,13 +7,14 @@ export const Initials = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate('/Search');
+    // Redirect to /Search when the component is mounted
+    navigate('/search');
   }, [navigate]);
 
   return (
     <div className="p-4">
       <Routes>
-        <Route path="/Search" element={<Results />} />
+        <Route path="/search" element={<Results />} />
         <Route path="/images" element={<Results />} />
         <Route path="/news" element={<Results />} />
         <Route path="/videos" element={<Results />} />

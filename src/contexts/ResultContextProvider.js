@@ -1,45 +1,57 @@
+// ResultContextProvider.jsx
+
 import React, { createContext, useContext, useState } from 'react';
 import axios from 'axios';
 
 const ResultContext = createContext();
 
 export const ResultContextProvider = ({ children }) => {
-    const [results, setResults] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
+  const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('Google'); // Set the default value to 'Google'
 
-    const getResults = async (type) => {
-        setIsLoading(true);
-        const options = {
-            method: 'GET',
-            url: 'https://google-web-search1.p.rapidapi.com/',
-            params: {
-                query: 'World Cup',
-                limit: '20',
-                related_keywords: 'true'
-            },
-            headers: {
-                 'X-RapidAPI-Key': '878a3fdf2dmsh746a53a7185cc84p1cff08jsnac5662538f49',
-                'X-RapidAPI-Host': 'google-web-search1.p.rapidapi.com'
-            }
-        };
+  const getResults = async () => {
+    setIsLoading(true);
 
-        try {
-            const response = await axios(options); // Use axios directly
-            console.log(response.data);
-            setResults(response.data);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setIsLoading(false);
+    // Only make the request if searchTerm is not an empty string
+    if (searchTerm.trim() !== '') {
+      const options = {
+        method: 'POST',
+        url: 'https://google-api31.p.rapidapi.com/',
+        headers: {
+          'X-RapidAPI-Key': 'e8684ff120mshcf7c3c53edce224p10be6djsn97c361b730fc',
+          'X-RapidAPI-Host': 'google-api31.p.rapidapi.com'
+        },
+        data: {
+          text: searchTerm,
+          safesearch: 'off',
+          timelimit: '',
+          region: 'wt-wt',
+          max_results: 20
         }
-    };
+      };
 
-    return (
-        <ResultContext.Provider value={{ getResults, results, searchTerm, setSearchTerm, isLoading }}>
-            {children}
-        </ResultContext.Provider>
-    );
+      try {
+        const response = await axios(options);
+        console.log(response.data);
+        setResults(response.data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      // If searchTerm is empty, clear results and set isLoading to false
+      setResults([]);
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <ResultContext.Provider value={{ getResults, results, searchTerm, setSearchTerm, isLoading }}>
+      {children}
+    </ResultContext.Provider>
+  );
 };
 
 export const useResultContext = () => useContext(ResultContext);
